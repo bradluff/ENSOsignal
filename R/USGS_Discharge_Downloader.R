@@ -5,7 +5,6 @@
 #' @param start_date The first date to download data for.
 #' @param end_date The last date to download data for.
 #' @param missing_days The number of missing days in the discharge record that is acceptable.
-#' @export detrend
 
 
 
@@ -28,9 +27,15 @@ discharge_download <- function(gages, discharge_directory, start_date = "1951-10
             fileName <- paste0(each, "_discharge.csv")
             write.table(discharge, fileName, row.names = FALSE, col.names = FALSE, sep = ",")
             print(paste0(each, " downloaded successfully"))
+          } else {
+            print(paste0(each," discharge record corrupt"))
           }
+        } else {
+          print(paste0(each," data in wrong format"))
         }
-      }, silent = TRUE)
+      }, silent = FALSE)
+    } else {
+      print(paste0(each," already downloaded"))
     }
   }
 }

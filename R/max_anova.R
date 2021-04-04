@@ -6,6 +6,10 @@
 
 
 max_anova <- function(project_directory){
+  # Establish Nino, Nina, Enso, and Neutral/Weak
+  nino <- c(1953,1958,1966,1969,1977,1983,1987,1992,1998)
+  nina <- c(1955,1956,1971,1974,1975,1976,1985,1989,1996,1999,2000,2008)
+  neutral <- c(1951,1952,1954,1957,1959,1960,1961,1962,1963,1964,1965,1967,1968,1970,1972,1973,1978,1979,1980,1981,1982,1984,1986,1988,1990,1991,1993,1994,1995,1997,2001,2002,2003,2004,2005,2006,2007,2009,2010)
   water_years <- seq(1952, 2011, by = 1)
   max_z <- read.csv(paste0(project_directory, "max_z.csv"))
   colnames(max_z) <- as.character(water_years-1)
@@ -14,7 +18,7 @@ max_anova <- function(project_directory){
   max_nina <- max_z[,as.character(sort(nina))]
   max_neutral <- max_z[,as.character(sort(neutral))]
   # Setup the nino treatment for max
-  max_nino_anova <- as.data.frame(matrix(nrow = length(max_nino)*length(max_nino$`1951`), ncol = 2))
+  max_nino_anova <- as.data.frame(matrix(nrow = length(max_nino)*length(max_nino$`1953`), ncol = 2))
   max_nino_anova$V1 <- as.vector(as.matrix(max_nino))
   max_nino_anova$V2 <- "El Niño"
   # Setup the nina treatment for max
@@ -22,7 +26,7 @@ max_anova <- function(project_directory){
   max_nina_anova$V1 <- as.vector(as.matrix(max_nina))
   max_nina_anova$V2 <- "La Niña"
   # Setup the neutral treatment for max
-  max_neutral_anova <- as.data.frame(matrix(nrow = length(max_neutral)*length(max_neutral$`1956`), ncol = 2))
+  max_neutral_anova <- as.data.frame(matrix(nrow = length(max_neutral)*length(max_neutral$`1951`), ncol = 2))
   max_neutral_anova$V1 <- as.vector(as.matrix(max_neutral))
   max_neutral_anova$V2 <- "Neutral"
   # max anova dataframe
