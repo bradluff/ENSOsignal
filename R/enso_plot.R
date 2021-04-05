@@ -7,9 +7,6 @@
 
 enso_plot <- function(){
 
-  # load the ggplot2 library
-  library(ggplot2)
-
   # ONI values by watery year from 1951 - 2010
   oni_intensity <- c(0.041666667,0.4,0.525,0,-0.75,-0.858333333,0.475,1.083333333,0.25,0.025,0.058333333,-0.191666667,
                      0.25,0.183333333,0.225,0.9,-0.258333333,-0.133333333,0.733333333,0.091666667,-0.933333333,0.191666667,
@@ -41,14 +38,14 @@ enso_plot <- function(){
   df[df$water_years %in% nina,3] <- "La Nina"
 
   # create a line plot with colored points for the category
-  plot1 <- ggplot(df, aes(water_years,ONI)) +
-    geom_line() +
-    geom_point(aes(water_years,ONI,col=factor(ENSO), group = 1), size = 4) +
-    scale_color_manual(values=c("blue","red","black")) +
-    ggtitle("ONI Values Averaged by Water Year") +
-    xlab("Water Year") +
-    ylab("ONI") +
-    theme(legend.title = element_blank())
+  plot1 <- ggplot2::ggplot(df, ggplot2::aes(water_years,ONI)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point(ggplot2::aes(water_years,ONI,col=factor(ENSO), group = 1), size = 4) +
+    ggplot2::scale_color_manual(values=c("blue","red","black")) +
+    ggplot2::ggtitle("ONI Values Averaged by Water Year") +
+    ggplot2::xlab("Water Year") +
+    ggplot2::ylab("ONI") +
+    ggplot2::theme(legend.title = ggplot2::element_blank())
 
   # return the plot
   return(plot1)

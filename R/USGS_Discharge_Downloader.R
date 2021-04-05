@@ -10,10 +10,6 @@
 
 discharge_download <- function(gages, discharge_directory, start_date = "1951-10-01", end_date = "2011-09-30", missing_days = 14){
 
-  # load the libraries
-  library(dataRetrieval)
-  library(tidyr)
-
   # set the working directory to the discharge directory
   setwd(discharge_directory)
 
@@ -29,7 +25,7 @@ discharge_download <- function(gages, discharge_directory, start_date = "1951-10
       try({
 
         # download the discharge
-        discharge <- readNWISdv(each, parameterCodes, startDate = start_date, endDate = end_date)
+        discharge <- dataRetrieval::readNWISdv(each, parameterCodes, startDate = start_date, endDate = end_date)
 
         # check if file in correct format
         if (length(discharge) == 5){

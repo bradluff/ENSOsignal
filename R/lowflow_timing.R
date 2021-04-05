@@ -6,9 +6,6 @@
 
 lowflow_timing <- function(project_directory){
 
-  # load ggplot
-  require(ggplot2)
-
   # Establish Nino, Nina, Enso, and Neutral/Weak
   nino <- c(1953,1958,1966,1969,1977,1983,1987,1992,1998)
   nina <- c(1955,1956,1971,1974,1975,1976,1985,1989,1996,1999,2000,2008)
@@ -67,12 +64,12 @@ lowflow_timing <- function(project_directory){
   }
 
   # create a histogram of the low flow timing by ENSO category
-  plot1 <- ggplot(data = min_barplot, aes(x = water_year, y = Count, fill = ENSO, group = 3)) +
-    geom_bar(stat = "identity", position = "dodge") +
-    facet_grid(ENSO~., scales = "free") +
-    xlab("Date") +
-    ylab("Count of Days") +
-    ggtitle("Timing of the 7-Day Minimum Flow")
+  plot1 <- ggplot2::ggplot(data = min_barplot, ggplot2::aes(x = water_year, y = Count, fill = ENSO, group = 3)) +
+    ggplot2::geom_bar(stat = "identity", position = "dodge") +
+    ggplot2::facet_grid(ENSO~., scales = "free") +
+    ggplot2::xlab("Date") +
+    ggplot2::ylab("Count of Days") +
+    ggplot2::ggtitle("Timing of the 7-Day Minimum Flow")
 
   # return the plot from the function
   return(plot1)
