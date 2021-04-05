@@ -9,6 +9,11 @@ peakflow_timing <- function(project_directory){
   # load ggplot
   require(ggplot2)
 
+  # Establish Nino, Nina, Enso, and Neutral/Weak
+  nino <- c(1953,1958,1966,1969,1977,1983,1987,1992,1998)
+  nina <- c(1955,1956,1971,1974,1975,1976,1985,1989,1996,1999,2000,2008)
+  neutral <- c(1951,1952,1954,1957,1959,1960,1961,1962,1963,1964,1965,1967,1968,1970,1972,1973,1978,1979,1980,1981,1982,1984,1986,1988,1990,1991,1993,1994,1995,1997,2001,2002,2003,2004,2005,2006,2007,2009,2010)
+
   # load the maximum date df from csv file
   maxdate_df <- read.csv(paste0(project_directory,"maxdate_df.csv"), stringsAsFactors = F, row.names = 1)
 
@@ -29,7 +34,7 @@ peakflow_timing <- function(project_directory){
   maxdate_neutral <- maxdate_df[,as.character(sort(neutral))]
 
   # water year converts to list of days
-  water_year <- seq(as.Date("2020-01-01"),as.Date("2020-12-31"), by = "day")
+  water_year <- seq(as.Date("2021-01-01"),as.Date("2021-12-31"), by = "day")
 
   # convert days to df for plotting
   max_barplot <- as.data.frame(water_year)
