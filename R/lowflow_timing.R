@@ -67,10 +67,11 @@ lowflow_timing <- function(project_directory){
   }
 
   # create a histogram of the low flow timing by ENSO category
-  plot1 <- ggplot(data = min_barplot, aes(x = water_year, y = Count, fill = ENSO)) +
+  plot1 <- ggplot(data = min_barplot, aes(x = water_year, y = Count, fill = ENSO, group = 3)) +
     geom_bar(stat = "identity", position = "dodge") +
+    facet_grid(ENSO~., scales = "free") +
     xlab("Date") +
-    ylab("Count of Timing Days") +
+    ylab("Count of Days") +
     ggtitle("Timing of the 7-Day Minimum Flow")
 
   # return the plot from the function
