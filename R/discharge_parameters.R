@@ -4,20 +4,24 @@
 #' @param end_year The last year of data to be used.
 #' @param detrended_directory The directory where the detrended discharge files are located.
 #' @param project_directory The directory used to save output files.
-#' @export detrend
 
 
 
 discharge_parameters <- function(start_year = 1951, end_year = 2011, detrended_directory, project_directory){
+
   # sequence years
   water_years <- seq(start_year+1, end_year, by = 1)
+
   # year starts
   year_start <- "-10-01"
+
   # year ends
   year_end <- "-09-30"
+
   # gather file names
   water_files <- list.files(detrended_directory, full.names = T)
-  # dataframes
+
+  # create empty dataframes to store data in
   mean_df <- as.data.frame(matrix(nrow = length(water_files), ncol = length(water_years)))
   sum_df <- as.data.frame(matrix(nrow = length(water_files), ncol = length(water_years)))
   max_df <- as.data.frame(matrix(nrow = length(water_files), ncol = length(water_years)))
@@ -25,14 +29,21 @@ discharge_parameters <- function(start_year = 1951, end_year = 2011, detrended_d
   maxdate_df <- as.data.frame(matrix(nrow = length(water_files), ncol = length(water_years)))
   mindate_df <- as.data.frame(matrix(nrow = length(water_files), ncol = length(water_years)))
 
+  # count variable
   count <- 1
+
+  # empty gage list to save numeric IDs to
   gage_list <- c()
+
   # Loop through every file
   for (every in water_files){
+
     # Open file
     gage <- read.csv(every)
+
     # date as date
     gage$V3 <- as.Date(gage$V3)
+
     # lists to append to
     mean_list <- c()
     sum_list <- c()
@@ -40,41 +51,71 @@ discharge_parameters <- function(start_year = 1951, end_year = 2011, detrended_d
     min_list <- c()
     max_date <- c()
     min_date <- c()
+
     # loop through every water year
     for (year in water_years){
+
       # subset the data
       this_year <- gage[gage$V3 >= paste0(as.character(year-1),year_start) & gage$V3 <= paste0(as.character(year),year_end),]
+
       # append mean
       mean_list <- append(mean_list, mean(na.omit(this_year$Detrended)))
+
       # append sum
       sum_list <- append(sum_list, sum(na.omit(this_year$Detrended)))
+
       # append max15
       max_list <- append(max_list, max(na.omit(this_year$day15)))
+
       # append min7
       min_list <- append(min_list, min(na.omit(this_year$day7)))
+
       # append date of max event
       max_date <- append(max_date, this_year$V3[match(max(na.omit(this_year$day15)), this_year$day15)])
+
       # append date of min event
       min_date <- append(min_date, this_year$V3[match(min(na.omit(this_year$day7)), this_year$day7)])
     }
+
+    # add gages to gage list
     gage_list <- append(gage_list, gage$V2[1])
+
+    # save the mean value
     mean_df[count,] <- mean_list
+
+    # save the sum value
     sum_df[count,] <- sum_list
+
+    # save the max value
     max_df[count,] <- max_list
+
+    # save the min value
     min_df[count,] <- min_list
+
+    # save the max date
     maxdate_df[count,] <- max_date
+
+    # save the min date
     mindate_df[count,] <- min_date
+
+    # add 1 to the count
     count <- count + 1
+
+    # print the gage number
     print(gage$V2[1])
   }
 
+  # format date column in maxdate df
   for (column in colnames(maxdate_df)){
     maxdate_df[,column] <- as.character(format(as.Date(maxdate_df[,column], origin = "1970-01-01"), "%m-%d"))
   }
+
+  # format date column in mindate df
   for (column in colnames(mindate_df)){
     mindate_df[,column] <- as.character(format(as.Date(mindate_df[,column], origin = "1970-01-01"), "%m-%d"))
   }
 
+  # rename the columns with water years and rows with gage IDs
   colnames(sum_df) <- water_years
   rownames(sum_df) <- gage_list
   colnames(mean_df) <- water_years
@@ -88,13 +129,13 @@ discharge_parameters <- function(start_year = 1951, end_year = 2011, detrended_d
   colnames(mindate_df) <- water_years-1
   rownames(mindate_df) <- gage_list
 
+  # save all data frames as csv files in the project directory
   write.csv(sum_df, paste0(project_directory, "sum_df.csv"), row.names = T)
   write.csv(mean_df, paste0(project_directory, "mean_df.csv"), row.names = T)
   write.csv(max_df, paste0(project_directory, "max_df.csv"), row.names = T)
   write.csv(min_df, paste0(project_directory, "min_df.csv"), row.names = T)
   write.csv(maxdate_df, paste0(project_directory, "maxdate_df.csv"), row.names = T)
   write.csv(mindate_df, paste0(project_directory, "mindate_df.csv"), row.names = T)
-
 }
 
 

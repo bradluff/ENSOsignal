@@ -7,10 +7,10 @@
 effects_q(
   project_directory,
   gage_list,
-  sum_anova_results,
-  mean_anova_results,
-  min_anova_results,
-  max_anova_results
+  sum_stats_results,
+  mean_stats_results,
+  min_stats_results,
+  max_stats_results
 )
 }
 \arguments{
@@ -18,13 +18,13 @@ effects_q(
 
 \item{gage_list}{The gages used in vector form.}
 
-\item{sum_anova_results}{The object returned from the function sum_anova.}
+\item{sum_stats_results}{The object returned from the function sum_anova.}
 
-\item{mean_anova_results}{The object returned from the function mean_anova.}
+\item{mean_stats_results}{The object returned from the function mean_anova.}
 
-\item{min_anova_results}{The object returned from the function min_anova.}
+\item{min_stats_results}{The object returned from the function min_anova.}
 
-\item{max_anova_results}{The object returned from the function max_anova.}
+\item{max_stats_results}{The object returned from the function max_anova.}
 }
 \description{
 Calculate the effects
