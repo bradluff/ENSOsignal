@@ -69,7 +69,9 @@ lowflow_timing <- function(project_directory){
     ggplot2::facet_grid(ENSO~., scales = "free") +
     ggplot2::xlab("Date") +
     ggplot2::ylab("Count of Days") +
-    ggplot2::ggtitle("Timing of the 7-Day Minimum Flow")
+    ggplot2::ggtitle("Timing of the 7-Day Minimum Flow") +
+    ggplot2::theme(legend.position = "none") +
+    ggplot2::geom_smooth(span=0.15)
 
   # return the plot from the function
   return(plot1)
